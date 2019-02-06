@@ -5,7 +5,7 @@ This web app has been designed to run on a mobile phone size screen only.
 It has the following additional notable installations:
 
  - [Material UI](https://material-ui.com/) - For the UI
- - [Object Path Immutable](https://github.com/mariocasciaro/object-path-immutable) - To allow deep state changes without mutating the existing state.
+ - [redux-starter-kit](https://github.com/reduxjs/redux-starter-kit) - To remove the boiler plate around redux - actions and reducers.
  
 
 ## Directory structure:
@@ -25,40 +25,5 @@ src /
             
 </pre>
 
-## Object path immutable: 
-
-Allows you to change the state in redux without mutating the existing state. If you look at the overDetailsReducer, there is an example in the comments, which is reproduced here:
-
-__Instead of this horrible unreadable deep clones__
-```$javascript 1.6
-case NEXT_BALL_BUTTON_CLICKED:
-      const currentBall = action.payload.currentBall;
-      const numberOfOversPlayed = state.battingTeam.overs.length;
-      return {
-        ...state,
-        battingTeam: {
-          ...state.battingTeam,
-          overs: [
-            ...state.battingTeam.overs.slice(0, numberOfOversPlayed - 2),
-            {
-              ...state.battingTeam.overs[numberOfOversPlayed - 1],
-              balls: [
-                ...state.battingTeam.overs[numberOfOversPlayed - 1].balls,
-                {...currentBall}
-              ]
-            }
-          ]
-        }
-      };
-```  
-
-__We get this cleaner one liner which does the same thing__
-```javascript 1.6
-case NEXT_BALL_BUTTON_CLICKED:
-      const currentBall = action.payload.currentBall;
-      const numberOfOversPlayed = state.battingTeam.overs.length;
-      return immutable.push(state,
-        `battingTeam.overs.${numberOfOversPlayed - 1}.balls`,
-        {...currentBall});
 
 ```
